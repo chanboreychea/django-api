@@ -1,4 +1,5 @@
 import datetime
+from django.db.models import Q
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -74,3 +75,22 @@ def show(request, id):
         return JsonResponse({"message": "Id " + id + " not found!"})
     serializer = CategorySerializer(category)
     return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+def search(request):
+    sname = request.GET.get("name")
+    sid = request.GET.get("id")
+
+    query = Q()
+
+    if sname:
+        query |= Q(name__icontains=sname)
+
+    if sid:
+        query |= Q(id=sid)
+
+    category = Category.objects.filter(query)
+
+    serializer = CategorySerializer(category, many=True)
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)

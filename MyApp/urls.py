@@ -25,4 +25,5 @@ urlpatterns = [
     path("api/v1/categories/update/<id>", category_view.update),
     path("api/v1/categories/delete/<id>", category_view.delete),
     path("api/v1/categories/show/<id>", category_view.show),
+    path('api/v1/categories/search', category_view.search)
 ]
