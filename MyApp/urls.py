@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from MyApp.controllers import views, category_view
+from MyApp.controllers import views, category_view, product_view
 
 urlpatterns = [
     path("", views.homepage),
@@ -25,5 +25,12 @@ urlpatterns = [
     path("api/v1/categories/update/<id>", category_view.update),
     path("api/v1/categories/delete/<id>", category_view.delete),
     path("api/v1/categories/show/<id>", category_view.show),
-    path('api/v1/categories/search', category_view.search)
+    path("api/v1/categories/search", category_view.search),
+    # ------------------------------------------------------
+    path("api/v1/products/index", product_view.index),
+    path("api/v1/products/store", product_view.store),
+    path("api/v1/products/update/<id>", product_view.update),
+    path("api/v1/products/delete/<id>", product_view.delete),
+    path("api/v1/products/show/<id>", product_view.show),
+    path("api/v1/products/search", product_view.search),
 ]
