@@ -19,6 +19,7 @@ class Product(models.Model):
     barcode = models.IntegerField(unique=True, null=False)
     unitPrice = models.FloatField(null=False)
     qtyInstock = models.IntegerField(null=False)
+    amount = models.FloatField(null=False)
     photo = models.ImageField(upload_to="media/", null=False)
     createBy = models.ForeignKey(User, on_delete=models.CASCADE)
     updateBy = models.IntegerField(null=True)

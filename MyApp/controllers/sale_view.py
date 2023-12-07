@@ -46,6 +46,7 @@ def sale_commit(request):
                     saleDetail.save()
                     
                     product.qtyInstock = product.qtyInstock - saleDetail.qty
+                    product.amount = product.amount - saleDetail.amount
                     product.save()
             
             sale1 = Sale.objects.get(pk=saleId.id)

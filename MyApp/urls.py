@@ -22,6 +22,7 @@ from MyApp.controllers import (
     product_view,
     sale_view,
     sale_detail_view,
+    purchase_view
 )
 
 urlpatterns = [
@@ -46,4 +47,8 @@ urlpatterns = [
     # -------------------------------------------------------
     path("api/v1/saledetails/index", sale_detail_view.index),
     path("api/v1/saledetails/show/<id>", sale_detail_view.show),
+    # -------------------------------------------------------
+    path("api/v1/purchases/index", purchase_view.index),
+    path("api/v1/purchases/store", purchase_view.purchase_commit),
+    path("api/v1/purchases/show/<id>", purchase_view.show),
 ]

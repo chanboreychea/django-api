@@ -2,6 +2,7 @@ import datetime
 import os
 from django.db.models import Q
 from django.http import JsonResponse
+from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
@@ -17,42 +18,29 @@ def index(request):
         serializer = ProductSerializer(product, many=True)
         return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
     except Exception as ex:
-        return JsonResponse(ex, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse(ex, safe=False, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["POST"])
 def store(request):
     try:
         product = Product()
+        product.name = request.data["name"]
         product.category_id = request.data["category"]
         product.createBy_id = request.data["createBy"]
-        product.name = request.data["name"]
         product.barcode = request.data["barcode"]
         product.unitPrice = request.data["unitPrice"]
         product.qtyInstock = request.data["qtyInstock"]
+        product.amount = float(product.unitPrice) * int(product.qtyInstock)
         if len(request.data["photo"]) > 0:
             product.photo = request.data["photo"]
-            product.save()
-            return JsonResponse(
-                {"message": "Insert Successfully"}, status=status.HTTP_201_CREATED
-            )
         else:
             product.photo = ""
-            product.save()
-            return JsonResponse(
-                {"message": "Insert Successfully"}, status=status.HTTP_201_CREATED
-            )
+
+        product.save()
+        return JsonResponse({"message": "insert successfully"})
     except Exception as ex:
-        return JsonResponse(str(ex), status=status.HTTP_400_BAD_REQUEST)
-    # data = {
-    #     "name": product.name,
-    #     "category": product.category_id,
-    #     "createBy": product.createBy_id,
-    #     "barcode": product.barcode,
-    #     "unitPrice": product.unitPrice,
-    #     "qtyInstock": product.qtyInstock,
-    #     "photo": product.photo,
-    # }
+        return JsonResponse(str(ex), safe=False, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET", "PUT"])
@@ -69,6 +57,7 @@ def update(request, id):
     product.barcode = request.data["barcode"]
     product.unitPrice = request.data["unitPrice"]
     product.qtyInstock = request.data["qtyInstock"]
+    product.amount = product.unitPrice * product.qtyInstock
 
     if product.photo:
         if len(request.data["photo"]) > 0:
@@ -86,6 +75,7 @@ def update(request, id):
         "barcode": product.barcode,
         "unitPrice": product.unitPrice,
         "qtyInstock": product.qtyInstock,
+        "amount": product.amount,
         "photo": product.photo,
         "createBy": 1,
         "updateBy": product.updateBy_id,
