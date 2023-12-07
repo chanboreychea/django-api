@@ -25,8 +25,8 @@ SECRET_KEY = "django-insecure-6my&1t^g188=3r@cihkhn5rx9a##zv@6gl1+-l2h$$=-9_$8ee
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ALLOWED_HOSTS = ["comrean.online"]
 ALLOWED_HOSTS = []
-
 
 # Application definition
 

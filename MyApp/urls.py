@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from MyApp.controllers import views, category_view, product_view
+from MyApp.controllers import (
+    views,
+    category_view,
+    product_view,
+    sale_view,
+    sale_detail_view,
+)
 
 urlpatterns = [
     path("", views.homepage),
@@ -33,4 +39,11 @@ urlpatterns = [
     path("api/v1/products/delete/<id>", product_view.delete),
     path("api/v1/products/show/<id>", product_view.show),
     path("api/v1/products/search", product_view.search),
+    # -------------------------------------------------------
+    path("api/v1/sales/index", sale_view.index),
+    path("api/v1/sales/store", sale_view.sale_commit),
+    path("api/v1/sales/show/<id>", sale_view.show),
+    # -------------------------------------------------------
+    path("api/v1/saledetails/index", sale_detail_view.index),
+    path("api/v1/saledetails/show/<id>", sale_detail_view.show),
 ]
