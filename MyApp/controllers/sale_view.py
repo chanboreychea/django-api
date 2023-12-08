@@ -26,12 +26,12 @@ def index(request):
 def sale_commit(request):
     try:
         with transaction.atomic():
-            sale=Sale()         
-            sale.totalAmount = 0            
-            sale.createBy_id = request.data['createBy']          
+            sale = Sale()
+            sale.totalAmount = 0
+            sale.createBy_id = request.data["createBy"]
             sale.save()
-            
-            saleId=Sale.objects.last()
+
+            saleId = Sale.objects.last()
             total = 0
             for i in range(len(request.data["saleDetail"])):
                 saleDetail = SaleDetail()
@@ -44,21 +44,21 @@ def sale_commit(request):
                     saleDetail.amount = saleDetail.qty * product.unitPrice
                     total += saleDetail.amount
                     saleDetail.save()
-                    
+
+                    # if qty sale more than qtyInstock
                     product.qtyInstock = product.qtyInstock - saleDetail.qty
                     product.amount = product.amount - saleDetail.amount
                     product.save()
-            
+
             sale1 = Sale.objects.get(pk=saleId.id)
             sale1.totalAmount = total
-            sale1.save()  
-              
-        transaction.commit()    
-        return Response({"message":"Insert Successfully"})
+            sale1.save()
+
+        transaction.commit()
+        return Response({"message": "Insert Successfully"})
     except Exception as e:
         return Response(str(e))
-            
-            
+
     # product = Product()
     # sale = Sale()
     # sale.createBy_id = request.data["createBy"]
