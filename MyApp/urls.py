@@ -16,17 +16,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 from MyApp.controllers import (
     views,
     category_view,
     product_view,
     sale_view,
     sale_detail_view,
-    purchase_view
+    purchase_view,
 )
 
 urlpatterns = [
     path("", views.homepage),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    # ------------------------------------------------------
     path("api/v1/categories/index", category_view.index),
     path("api/v1/categories/store", category_view.store),
     path("api/v1/categories/update/<id>", category_view.update),

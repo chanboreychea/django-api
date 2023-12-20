@@ -59,39 +59,8 @@ def sale_commit(request):
     except Exception as e:
         return Response(str(e))
 
-    # product = Product()
-    # sale = Sale()
-    # sale.createBy_id = request.data["createBy"]
-    # data = {"createBy": sale.createBy_id, "totalAmount": sale.totalAmount}
-    # a = []
-    # amount = 0
-    # for i in range(len(request.data["saleDetail"])):
-    #     product.id = request.data["saleDetail"][i]["product_id"]
-    #     p = Product.objects.get(pk=product.id)
-    #     product.qtyInstock = request.data["saleDetail"][i]["qty"]
-    #     a.append(
-    #         {
-    #             "id": product.id,
-    #             "qty": product.qtyInstock,
-    #             "price": p.unitPrice,
-    #             "amount": product.qtyInstock * p.unitPrice,
-    #         }
-    #     )
-    #     amount += product.qtyInstock * p.unitPrice
-    # sale.totalAmount = amount
-    # return JsonResponse(
-    #     {
-    #         "createBy": sale.createBy_id,
-    #         "totalAmount": sale.totalAmount,
-    #         "saleDetail": a,
-    #     },
-    #     safe=False,
-    # )
-
 
 api_view(["GET"])
-
-
 def show(request, id):
     try:
         sale = Sale.objects.get(pk=id)
